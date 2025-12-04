@@ -182,6 +182,21 @@
     <script>
         feather.replace();
     </script>
+<script>
+    // DeepSite tarafından eklenen badge'i DOM yüklendikten sonra kaldırır
+    document.addEventListener("DOMContentLoaded", () => {
+        const selectors = [
+            'a[href="https://huggingface.co/deepsite"]',
+            'img[src*="deepsite"]',
+            'deepsite-badge',
+            '.deepsite-badge'
+        ];
+
+        selectors.forEach(sel => {
+            document.querySelectorAll(sel).forEach(el => el.remove());
+        });
+    });
+</script>
 
 </body>
 </html>
