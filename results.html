@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Results - AutoMatch AI</title>
+    <link rel="icon" type="image/x-icon" href="https://static.photos/technology/32x32/1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6C63FF',
+                        secondary: '#FF6584'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        .match-badge { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            font-size: 1.5rem;
+        }
+        .skill-tag {
+            display: inline-block;
+            background-color: #e9e8ff;
+            color: #6C63FF;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 4px;
+            font-size: 0.875rem;
+        }
+        .job-card:hover {
+            transform: translateY(-4px);
+            transition: transform 0.3s ease;
+        }
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        .progress-ring-circle {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                    <i data-feather="zap" class="text-white"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-800">AutoMatch AI</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-600 hover:text-primary">Home</a>
+                <a href="upload.html" class="text-gray-600 hover:text-primary">Upload New</a>
+                <a href="results.html" class="text-primary font-semibold">Results</a>
+            </div>
+            <button onclick="downloadReport()" class="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-700 transition flex items-center">
+                <i data-feather="download" class="mr-2"></i> Download Report
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Your Perfect Matches Are Here!</h1>
+            <p class="text-gray-600 text-xl">AI has analyzed your resume and found these amazing opportunities.</p>
+        </div>
+
+        <!-- Resume Summary -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-10">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold mb-2">John Doe - Senior Software Engineer</h2>
+                    <p class="text-gray-600">8+ years experience | San Francisco, CA</p>
+                    <div class="flex flex-wrap mt-4">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Leadership</span>
+                    </div>
+                </div>
+                <div class="mt-6 md:mt-0 relative">
+                    <div class="match-badge bg-gradient-to-r from-primary to-secondary text-white">
+                        94%
+                    </div>
+                    <p class="text-center mt-2 text-gray-600 font-medium">Match Score</p>
+                </div>
+            </div>
+
+            <!-- AI Insights -->
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
+                            <i data-feather="award" class="text-primary"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Top Skills Match</h3>
+                    </div>
+                    <p class="text-gray-600">Your JavaScript and React experience matches 95% of top-paying roles.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
+                            <i data-feather="trending-up" class="text-primary"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Market Demand</h3>
+                    </div>
+                    <p class="text-gray-600">High demand for your skills with 42% salary premium in current market.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
+                            <i data-feather="target" class="text-primary"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">AI Recommendation</h3>
+                    </div>
+                    <p class="text-gray-600">Consider adding DevOps experience to increase match rate by 15%.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Matches -->
+        <div class="mb-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold">Top Job Matches <span class="text-primary">(12)</span></h2>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-600 hover:text-primary flex items-center">
+                        <i data-feather="filter" class="mr-2"></i> Filter
+                    </button>
+                    <button class="text-gray-600 hover:text-primary flex items-center">
+                        <i data-feather="sort-asc" class="mr-2"></i> Sort
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Job Card 1 -->
+                <div class="job-card bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-xl mb-1">Senior Frontend Engineer</h3>
+                            <p class="text-gray-600">TechVision Inc. • San Francisco, CA</p>
+                        </div>
+                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                            96% Match
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">Build cutting-edge React applications for enterprise clients. Lead a team of 5 engineers.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">Redux</span>
+                        <span class="skill-tag">CI/CD</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold">$145,000</span>
+                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
+                    </div>
+                </div>
+
+                <!-- Job Card 2 -->
+                <div class="job-card bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-xl mb-1">Full Stack Developer</h3>
+                            <p class="text-gray-600">InnovateCorp • Remote</p>
+                        </div>
+                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                            92% Match
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">Develop full-stack applications using Node.js and React. Work on AI-powered features.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">AWS</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold">$128,000</span>
+                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
+                    </div>
+                </div>
+
+                <!-- Job Card 3 -->
+                <div class="job-card bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-xl mb-1">Lead Software Engineer</h3>
+                            <p class="text-gray-600">FutureTech • New York, NY</p>
+                        </div>
+                        <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                            88% Match
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">Lead development of scalable microservices architecture. Mentor junior engineers.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">Kubernetes</span>
+                        <span class="skill-tag">Leadership</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold">$165,000</span>
+                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
+                    </div>
+                </div>
+
+                <!-- Job Card 4 -->
+                <div class="job-card bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-xl mb-1">DevOps Engineer</h3>
+                            <p class="text-gray-600">CloudSystems • Austin, TX</p>
+                        </div>
+                        <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                            85% Match
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">Manage cloud infrastructure and CI/CD pipelines. Focus on automation and monitoring.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Terraform</span>
+                        <span class="skill-tag">Python</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold">$135,000</span>
+                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
+                    </div>
+                </div>
+
+                <!-- Job Card 5 -->
+                <div class="job-card bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-xl mb-1">Mobile Developer</h3>
+                            <p class="text-gray-600">AppWorks • Seattle, WA</p>
+                        </div>
+                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                            82% Match
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">Develop cross-platform mobile applications using React Native. Work with design team.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="skill-tag">React Native</span>
+                        <span class="skill-tag">iOS</span>
+                        <span class="skill-tag">Android</span>
+                        <span class="skill-tag">JavaScript</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold">$120,000</span>
+                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
+                    </div>
+                </div>
+
+                <!-- Job Card 6 -->
+                <div class="job-card bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-xl mb-1">AI/ML Engineer</h3>
+                            <p class="text-gray-600">NeuralLabs • Boston, MA</p>
+                        </div>
+                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                            78% Match
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">Build machine learning models and deploy them to production. Research new algorithms.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">MLOps</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold">$155,000</span>
+                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="bg-gradient-to-r from-primary to-secondary text-white rounded-2xl p-10 text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4">Ready to Apply?</h2>
+            <p class="text-white/90 mb-8 max-w-2xl mx-auto">Our AI has found 12 high-quality matches for your profile. Start applying today!</p>
+            <div class="flex flex-col md:flex-row justify-center gap-6">
+                <button onclick="downloadReport()" class="bg-white text-primary px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                    <i data-feather="download" class="inline mr-2"></i> Download Full Report
+                </button>
+                <a href="upload.html" class="bg-transparent border-2 border-white px-8 py-3 rounded-lg font-bold hover:bg-white/10 transition">
+                    Upload Another Resume
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                            <i data-feather="zap" class="text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold">AutoMatch AI</span>
+                    </div>
+                    <p class="text-gray-400">AI-powered job matching for the modern professional.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Product</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="index.html" class="hover:text-white">Home</a></li>
+                        <li><a href="upload.html" class="hover:text-white">Upload</a></li>
+                        <li><a href="results.html" class="hover:text-white">Results</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">About</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                        <li><a href="#" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 AutoMatch AI. All rights reserved. This is a demo application.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+
+        function downloadReport() {
+            alert('Downloading your personalized job match report...\n\nThis would generate a PDF report in a real application.');
+            // In a real app, this would trigger a PDF download
+        }
+
+        // Animate match percentages on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const matchBadges = document.querySelectorAll('[class*="bg-"]:not(.bg-white):not(.bg-gray-):not(.bg-primary):not(.bg-secondary)');
+            matchBadges.forEach(badge => {
+                const matchText = badge.textContent;
+                const matchPercent = parseInt(matchText);
+                if (!isNaN(matchPercent)) {
+                    badge.textContent = '0%';
+                    let current = 0;
+                    const interval = setInterval(() => {
+                        current += 2;
+                        badge.textContent = current + '%';
+                        if (current >= matchPercent) {
+                            badge.textContent = matchPercent + '%';
+                            clearInterval(interval);
+                        }
+                    }, 20);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

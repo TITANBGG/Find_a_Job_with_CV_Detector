@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your Resume - AutoMatch AI</title>
+    <link rel="icon" type="image/x-icon" href="https://static.photos/technology/32x32/1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6C63FF',
+                        secondary: '#FF6584'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        .upload-area {
+            border: 3px dashed #6C63FF;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .upload-area.dragover {
+            background-color: rgba(108, 99, 255, 0.1);
+            border-color: #4A42FF;
+        }
+        .pulse-upload {
+            animation: pulse-upload 1.5s infinite;
+        }
+        @keyframes pulse-upload {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #6C63FF;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                    <i data-feather="zap" class="text-white"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-800">AutoMatch AI</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-600 hover:text-primary">Home</a>
+                <a href="upload.html" class="text-primary font-semibold">Upload CV</a>
+                <a href="results.html" class="text-gray-600 hover:text-primary">Results</a>
+            </div>
+            <a href="index.html" class="text-gray-600 hover:text-primary">Back to Home</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12 max-w-4xl">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Upload Your Resume</h1>
+            <p class="text-gray-600 text-xl">Let our AI work its magic. Upload your CV in any format and we'll transform it into job opportunities.</p>
+        </div>
+
+        <!-- Upload Area -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-10">
+            <div id="uploadBox" class="upload-area p-12 text-center cursor-pointer">
+                <div class="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                    <i data-feather="upload-cloud" class="w-12 h-12 text-primary"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Drag & Drop Your Resume</h3>
+                <p class="text-gray-500 mb-6">Supports PDF, DOCX, JPG, PNG (Max 10MB)</p>
+                <input type="file" id="fileInput" accept=".pdf,.docx,.jpg,.jpeg,.png" class="hidden">
+                <label for="fileInput" class="bg-primary text-white px-8 py-3 rounded-lg font-medium cursor-pointer hover:bg-purple-700 transition inline-block">
+                    Or Browse Files
+                </label>
+                <p class="text-gray-400 text-sm mt-6">Your data is secure and processed with encryption</p>
+            </div>
+
+            <!-- Upload Progress -->
+            <div id="uploadProgress" class="hidden mt-8">
+                <div class="flex justify-between mb-2">
+                    <span class="font-medium">Processing...</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill w-0"></div>
+                </div>
+                <div class="flex justify-between text-gray-500 text-sm mt-2">
+                    <span>Uploading</span>
+                    <span>AI Analysis</span>
+                </div>
+            </div>
+
+            <!-- File Info -->
+            <div id="fileInfo" class="hidden mt-8 bg-gray-50 p-6 rounded-xl">
+                <div class="flex items-center">
+                    <i data-feather="file-text" class="text-primary mr-4"></i>
+                    <div>
+                        <p id="fileName" class="font-medium"></p>
+                        <p id="fileSize" class="text-gray-500 text-sm"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button id="submitBtn" onclick="startProcessing()" class="w-full mt-8 bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-purple-700 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Process My Resume
+            </button>
+        </div>
+
+        <!-- Instructions -->
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <i data-feather="shield" class="text-primary"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">Secure & Private</h4>
+                <p class="text-gray-600">Your resume is encrypted and never shared with third parties.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <i data-feather="clock" class="text-primary"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">Fast Processing</h4>
+                <p class="text-gray-600">AI analysis completes in under 60 seconds for most resumes.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <i data-feather="bar-chart" class="text-primary"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">Smart Insights</h4>
+                <p class="text-gray-600">Get detailed analysis of your skills and market demand.</p>
+            </div>
+        </div>
+
+        <!-- Processing Animation -->
+        <div id="processingAnimation" class="hidden text-center p-12 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl">
+            <div class="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-6 pulse-upload">
+                <i data-feather="cpu" class="w-12 h-12 text-primary"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">AI is Analyzing Your Resume</h3>
+            <p class="text-gray-600 mb-8">Extracting skills, experience, and qualifications...</p>
+            <div class="inline-flex space-x-2">
+                <div class="w-3 h-3 bg-primary rounded-full animate-bounce"></div>
+                <div class="w-3 h-3 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                <div class="w-3 h-3 bg-primary rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 mt-20">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-6">
+                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                    <i data-feather="zap"></i>
+                </div>
+                <span class="text-xl font-bold">AutoMatch AI</span>
+            </div>
+            <p class="text-gray-400">Upload your resume and let AI find your next career opportunity.</p>
+            <div class="mt-8">
+                <a href="results.html" class="text-gray-400 hover:text-white mr-6">View Sample Results</a>
+                <a href="index.html" class="text-gray-400 hover:text-white">Back to Home</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+
+        // Upload functionality
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const submitBtn = document.getElementById('submitBtn');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercent = document.getElementById('progressPercent');
+        const processingAnimation = document.getElementById('processingAnimation');
+
+        let selectedFile = null;
+
+        // Drag and drop
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.classList.add('dragover');
+        });
+
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.classList.remove('dragover');
+        });
+
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        uploadBox.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.match('application/pdf') && 
+                !file.type.match('application/vnd.openxmlformats-officedocument.wordprocessingml.document') &&
+                !file.type.match('image/jpeg') &&
+                !file.type.match('image/png')) {
+                alert('Please upload a PDF, DOCX, JPG, or PNG file.');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File size must be less than 10MB.');
+                return;
+            }
+
+            selectedFile = file;
+            fileName.textContent = file.name;
+            fileSize.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+            fileInfo.classList.remove('hidden');
+            submitBtn.disabled = false;
+        }
+
+        function startProcessing() {
+            if (!selectedFile) {
+                alert('Please select a file first.');
+                return;
+            }
+
+            // Show processing animation
+            uploadProgress.classList.remove('hidden');
+            processingAnimation.classList.remove('hidden');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            // Simulate upload progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressFill.style.width = `${progress}%`;
+                progressPercent.textContent = `${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // Redirect to results page after completion
+                        window.location.href = 'results.html';
+                    }, 1500);
+                }
+            }, 200);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMatch AI - Smart Resume to Job Matching</title>
+    <link rel="icon" type="image/x-icon" href="https://static.photos/technology/32x32/1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6C63FF',
+                        secondary: '#FF6584'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #6C63FF 0%, #3A7BD5 100%); }
+        .hover-lift { transition: transform 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); }
+        .step-number { width: 50px; height: 50px; }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                    <i data-feather="zap" class="text-white"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-800">AutoMatch AI</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-primary font-semibold">Home</a>
+                <a href="upload.html" class="text-gray-600 hover:text-primary">Upload CV</a>
+                <a href="#features" class="text-gray-600 hover:text-primary">Features</a>
+                <a href="#how-it-works" class="text-gray-600 hover:text-primary">How it Works</a>
+            </div>
+            <a href="upload.html" class="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-700 transition">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Your Dream Job Awaits</h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto opacity-90">Upload your resume. Let our AI scan the web for perfect matches. Get hired faster.</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="upload.html" class="bg-white text-primary px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition hover-lift">Upload Your Resume Now →</a>
+                <a href="#how-it-works" class="bg-transparent border-2 border-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition">See How It Works</a>
+            </div>
+            <div class="mt-20 relative">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+                <img src="https://static.photos/technology/1200x630/5" alt="Dashboard Preview" class="rounded-2xl shadow-2xl mx-auto">
+            </div>
+        </div>
+    </section>
+
+    <!-- 5-Step Process -->
+    <section id="how-it-works" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">How <span class="text-primary">AutoMatch AI</span> Works</h2>
+            <div class="grid md:grid-cols-5 gap-8">
+                <div class="text-center">
+                    <div class="step-number rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="font-bold text-lg mb-2">Upload</h3>
+                    <p class="text-gray-600">Upload your CV in PDF, DOCX, or image format</p>
+                </div>
+                <div class="text-center">
+                    <div class="step-number rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="font-bold text-lg mb-2">OCR Scan</h3>
+                    <p class="text-gray-600">Advanced OCR extracts all text with perfect accuracy</p>
+                </div>
+                <div class="text-center">
+                    <div class="step-number rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="font-bold text-lg mb-2">AI Analysis</h3>
+                    <p class="text-gray-600">AI identifies skills, experience, and qualifications</p>
+                </div>
+                <div class="text-center">
+                    <div class="step-number rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="font-bold text-lg mb-2">Job Search</h3>
+                    <p class="text-gray-600">Scans thousands of job boards in real-time</p>
+                </div>
+                <div class="text-center">
+                    <div class="step-number rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-auto mb-4">5</div>
+                    <h3 class="font-bold text-lg mb-2">Match Results</h3>
+                    <p class="text-gray-600">Get personalized matches with compatibility scores</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">Powerful Features</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover-lift">
+                    <div class="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+                        <i data-feather="file-text" class="text-primary w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Smart OCR Engine</h3>
+                    <p class="text-gray-600">Extract text from any resume format with 99.9% accuracy, preserving structure and layout.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover-lift">
+                    <div class="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+                        <i data-feather="cpu" class="text-primary w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">AI Skill Extraction</h3>
+                    <p class="text-gray-600">Advanced NLP identifies hard skills, soft skills, experience levels, and industry keywords.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover-lift">
+                    <div class="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+                        <i data-feather="trending-up" class="text-primary w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Real-time Job Matching</h3>
+                    <p class="text-gray-600">Live search across LinkedIn, Indeed, Glassdoor, and niche job boards for instant matches.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Find Your Perfect Job?</h2>
+            <p class="text-gray-600 text-xl mb-10 max-w-2xl mx-auto">Join thousands who have accelerated their job search with AI-powered matching.</p>
+            <a href="upload.html" class="bg-primary text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-purple-700 transition hover-lift inline-flex items-center">
+                <i data-feather="upload" class="mr-2"></i> Upload Your Resume
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                            <i data-feather="zap"></i>
+                        </div>
+                        <span class="text-xl font-bold">AutoMatch AI</span>
+                    </div>
+                    <p class="text-gray-400 mt-2">AI-powered job matching for the modern professional.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="index.html" class="text-gray-400 hover:text-white">Home</a>
+                    <a href="upload.html" class="text-gray-400 hover:text-white">Upload</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Privacy</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Terms</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 AutoMatch AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+    </script>
+<script src="https://huggingface.co/deepsite/deepsite-badge.js"></script>
+</body>
+</html>
