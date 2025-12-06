@@ -29,6 +29,7 @@ class TechExtractionService:
     def normalize_text(text: str) -> str:
         """
         Metni normalize et (küçük harf, temizleme)
+        Nokta ve tire karakterlerini koru (vue.js, next.js, asp.net, vb. için)
         
         Args:
             text: Ham metin
@@ -39,8 +40,9 @@ class TechExtractionService:
         # Küçük harfe çevir
         text = text.lower()
         
-        # Noktalama işaretlerini boşlukla değiştir
-        text = re.sub(r'[^\w\s+#]', ' ', text)
+        # Noktalama işaretlerini temizle ama nokta, tire, +, # karakterlerini koru
+        # vue.js, next.js, node.js, asp.net gibi teknolojiler için
+        text = re.sub(r'[^\w\s+#\.\-]', ' ', text)
         
         return text
     
@@ -71,19 +73,24 @@ class TechExtractionService:
             
             for tech in technologies:
                 # Kelime sınırlarını gözetmek için pattern oluştur
-                # Özel karakterler için escape
-                tech_escaped = re.escape(tech.lower())
+                tech_lower = tech.lower()
                 
-                # c#, c++ gibi özel durumlar için uyarlama
-                if tech.lower() == "c#":
+                # Özel durumlar için uyarlanmış pattern'ler
+                if tech_lower == "c#":
                     pattern = r'\bc#\b'
-                elif tech.lower() == "c++":
+                elif tech_lower == "c++":
                     pattern = r'\bc\+\+\b'
-                elif tech.lower() == "asp.net":
-                    pattern = r'\basp\.net\b'
-                elif tech.lower() == "node.js":
-                    pattern = r'\bnode\.js\b'
+                elif tech_lower == "c":
+                    # "c" kelimesinin tek başına geçmesini ara (c++, c# ile karışmasın)
+                    pattern = r'\bc\b(?!\+\+|#)'
+                elif "." in tech_lower:
+                    # vue.js, next.js, node.js, asp.net gibi noktalı teknolojiler
+                    # Noktayı escape et ve kelime sınırlarını kullan
+                    tech_escaped = re.escape(tech_lower)
+                    pattern = rf'\b{tech_escaped}\b'
                 else:
+                    # Normal teknolojiler için escape ve kelime sınırları
+                    tech_escaped = re.escape(tech_lower)
                     pattern = rf'\b{tech_escaped}\b'
                 
                 # Kaç kez geçtiğini say
@@ -92,7 +99,7 @@ class TechExtractionService:
                 
                 if count > 0:
                     category_results.append({
-                        "name": tech.lower(),
+                        "name": tech_lower,
                         "count": count
                     })
             
