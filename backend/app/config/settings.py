@@ -12,6 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 class Settings(BaseSettings):
     """Uygulama ayarları"""
     
+    # Base directory (job_postings.json için gerekli)
+    BASE_DIR: Path = BASE_DIR
+    
     # Veritabanı
     DATABASE_URL: str = f"sqlite:///{BASE_DIR}/app.db"
     

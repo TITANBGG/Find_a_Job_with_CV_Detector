@@ -12,14 +12,20 @@ from app.config.settings import settings
 # FastAPI app instance
 app = FastAPI(
     title="CV Detector API",
-    description="CV dosyalarından teknoloji ve bilgi çıkarma API'si",
+    description="CV dosyalarından teknoloji ve bilgi çıkarma + İş öneri API'si",
     version="1.0.0"
 )
 
 # CORS middleware - frontend ile iletişim için
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Production'da spesifik domain'ler eklenebilir
+    allow_origins=[
+        "http://localhost:5500",
+        "http://127.0.0.1:5500",
+        "http://localhost:5000",
+        "http://127.0.0.1:5000",
+        "*"  # Development için tüm originlere izin
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -71,7 +77,7 @@ def root():
         Dict: API bilgisi
     """
     return {
-        "message": "CV Detector API",
+        "message": "CV Detector API - Akıllı CV Analiz ve İş Öneri Platformu",
         "version": "1.0.0",
         "docs": "/docs"
     }

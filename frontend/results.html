@@ -1,393 +1,302 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Results - AutoMatch AI</title>
-    <link rel="icon" type="image/x-icon" href="https://static.photos/technology/32x32/1">
+    <title>Analiz Sonuçları - CV Detector</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#6C63FF',
-                        secondary: '#FF6584'
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        * { font-family: 'Inter', sans-serif; }
-        .match-badge { 
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-weight: bold; 
-            font-size: 1.5rem;
-        }
-        .skill-tag {
-            display: inline-block;
-            background-color: #e9e8ff;
-            color: #6C63FF;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin: 4px;
-            font-size: 0.875rem;
+        .job-card {
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         .job-card:hover {
             transform: translateY(-4px);
-            transition: transform 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .progress-ring {
-            transform: rotate(-90deg);
+        .match-badge {
+            animation: pulse 2s ease-in-out infinite;
         }
-        .progress-ring-circle {
-            stroke-dasharray: 283;
-            stroke-dashoffset: 283;
-            transition: stroke-dashoffset 1s ease;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                    <i data-feather="zap" class="text-white"></i>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-indigo-600">CV Detector</h1>
                 </div>
-                <span class="text-xl font-bold text-gray-800">CV Detector</span>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Ana Sayfa</a>
+                    <a href="upload.html" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">CV Yükle</a>
+                    <a href="results.html" class="bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-medium">Sonuçlar</a>
+                </div>
             </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="index.html" class="text-gray-600 hover:text-primary">Home</a>
-                <a href="upload.html" class="text-gray-600 hover:text-primary">Upload New</a>
-                <a href="results.html" class="text-primary font-semibold">Results</a>
-            </div>
-            <button onclick="downloadReport()" class="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-700 transition flex items-center">
-                <i data-feather="download" class="mr-2"></i> Download Report
-            </button>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-12">
-        <!-- Header -->
-        <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Your Perfect Matches Are Here!</h1>
-            <p class="text-gray-600 text-xl">AI has analyzed your resume and found these amazing opportunities.</p>
+    <!-- Main -->
+    <main class="max-w-5xl mx-auto px-4 py-10">
+        <div class="mb-8 text-center">
+            <h2 class="text-4xl font-bold text-gray-900 mb-2">Analiz Sonuçları</h2>
+            <p class="text-gray-600">CV'nizden çıkarılan teknolojiler ve size uygun iş ilanları</p>
         </div>
 
-        <!-- Resume Summary -->
-        <div class="bg-white rounded-2xl shadow-xl p-8 mb-10">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
-                <div>
-                    <h2 class="text-2xl font-bold mb-2">John Doe - Senior Software Engineer</h2>
-                    <p class="text-gray-600">8+ years experience | San Francisco, CA</p>
-                    <div class="flex flex-wrap mt-4">
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">AWS</span>
-                        <span class="skill-tag">Leadership</span>
-                    </div>
-                </div>
-                <div class="mt-6 md:mt-0 relative">
-                    <div class="match-badge bg-gradient-to-r from-primary to-secondary text-white">
-                        94%
-                    </div>
-                    <p class="text-center mt-2 text-gray-600 font-medium">Match Score</p>
-                </div>
-            </div>
-
-            <!-- AI Insights -->
-            <div class="grid md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-gray-50 p-6 rounded-xl">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
-                            <i data-feather="award" class="text-primary"></i>
-                        </div>
-                        <h3 class="font-bold text-lg">Top Skills Match</h3>
-                    </div>
-                    <p class="text-gray-600">Your JavaScript and React experience matches 95% of top-paying roles.</p>
-                </div>
-                <div class="bg-gray-50 p-6 rounded-xl">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
-                            <i data-feather="trending-up" class="text-primary"></i>
-                        </div>
-                        <h3 class="font-bold text-lg">Market Demand</h3>
-                    </div>
-                    <p class="text-gray-600">High demand for your skills with 42% salary premium in current market.</p>
-                </div>
-                <div class="bg-gray-50 p-6 rounded-xl">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
-                            <i data-feather="target" class="text-primary"></i>
-                        </div>
-                        <h3 class="font-bold text-lg">AI Recommendation</h3>
-                    </div>
-                    <p class="text-gray-600">Consider adding DevOps experience to increase match rate by 15%.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Job Matches -->
-        <div class="mb-12">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold">Top Job Matches <span class="text-primary">(12)</span></h2>
-                <div class="flex items-center space-x-4">
-                    <button class="text-gray-600 hover:text-primary flex items-center">
-                        <i data-feather="filter" class="mr-2"></i> Filter
-                    </button>
-                    <button class="text-gray-600 hover:text-primary flex items-center">
-                        <i data-feather="sort-asc" class="mr-2"></i> Sort
-                    </button>
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Job Card 1 -->
-                <div class="job-card bg-white rounded-xl shadow-lg p-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="font-bold text-xl mb-1">Senior Frontend Engineer</h3>
-                            <p class="text-gray-600">TechVision Inc. • San Francisco, CA</p>
-                        </div>
-                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                            96% Match
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-4">Build cutting-edge React applications for enterprise clients. Lead a team of 5 engineers.</p>
-                    <div class="flex flex-wrap mb-4">
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">TypeScript</span>
-                        <span class="skill-tag">Redux</span>
-                        <span class="skill-tag">CI/CD</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold">$145,000</span>
-                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
-                    </div>
-                </div>
-
-                <!-- Job Card 2 -->
-                <div class="job-card bg-white rounded-xl shadow-lg p-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="font-bold text-xl mb-1">Full Stack Developer</h3>
-                            <p class="text-gray-600">InnovateCorp • Remote</p>
-                        </div>
-                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                            92% Match
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-4">Develop full-stack applications using Node.js and React. Work on AI-powered features.</p>
-                    <div class="flex flex-wrap mb-4">
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">MongoDB</span>
-                        <span class="skill-tag">AWS</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold">$128,000</span>
-                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
-                    </div>
-                </div>
-
-                <!-- Job Card 3 -->
-                <div class="job-card bg-white rounded-xl shadow-lg p-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="font-bold text-xl mb-1">Lead Software Engineer</h3>
-                            <p class="text-gray-600">FutureTech • New York, NY</p>
-                        </div>
-                        <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                            88% Match
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-4">Lead development of scalable microservices architecture. Mentor junior engineers.</p>
-                    <div class="flex flex-wrap mb-4">
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">Spring Boot</span>
-                        <span class="skill-tag">Kubernetes</span>
-                        <span class="skill-tag">Leadership</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold">$165,000</span>
-                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
-                    </div>
-                </div>
-
-                <!-- Job Card 4 -->
-                <div class="job-card bg-white rounded-xl shadow-lg p-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="font-bold text-xl mb-1">DevOps Engineer</h3>
-                            <p class="text-gray-600">CloudSystems • Austin, TX</p>
-                        </div>
-                        <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                            85% Match
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-4">Manage cloud infrastructure and CI/CD pipelines. Focus on automation and monitoring.</p>
-                    <div class="flex flex-wrap mb-4">
-                        <span class="skill-tag">AWS</span>
-                        <span class="skill-tag">Docker</span>
-                        <span class="skill-tag">Terraform</span>
-                        <span class="skill-tag">Python</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold">$135,000</span>
-                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
-                    </div>
-                </div>
-
-                <!-- Job Card 5 -->
-                <div class="job-card bg-white rounded-xl shadow-lg p-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="font-bold text-xl mb-1">Mobile Developer</h3>
-                            <p class="text-gray-600">AppWorks • Seattle, WA</p>
-                        </div>
-                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                            82% Match
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-4">Develop cross-platform mobile applications using React Native. Work with design team.</p>
-                    <div class="flex flex-wrap mb-4">
-                        <span class="skill-tag">React Native</span>
-                        <span class="skill-tag">iOS</span>
-                        <span class="skill-tag">Android</span>
-                        <span class="skill-tag">JavaScript</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold">$120,000</span>
-                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
-                    </div>
-                </div>
-
-                <!-- Job Card 6 -->
-                <div class="job-card bg-white rounded-xl shadow-lg p-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="font-bold text-xl mb-1">AI/ML Engineer</h3>
-                            <p class="text-gray-600">NeuralLabs • Boston, MA</p>
-                        </div>
-                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                            78% Match
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-4">Build machine learning models and deploy them to production. Research new algorithms.</p>
-                    <div class="flex flex-wrap mb-4">
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">TensorFlow</span>
-                        <span class="skill-tag">PyTorch</span>
-                        <span class="skill-tag">MLOps</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold">$155,000</span>
-                        <a href="#" class="text-primary font-medium hover:text-purple-700">View Details →</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CTA Section -->
-        <div class="bg-gradient-to-r from-primary to-secondary text-white rounded-2xl p-10 text-center mb-12">
-            <h2 class="text-3xl font-bold mb-4">Ready to Apply?</h2>
-            <p class="text-white/90 mb-8 max-w-2xl mx-auto">Our AI has found 12 high-quality matches for your profile. Start applying today!</p>
-            <div class="flex flex-col md:flex-row justify-center gap-6">
-                <button onclick="downloadReport()" class="bg-white text-primary px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
-                    <i data-feather="download" class="inline mr-2"></i> Download Full Report
-                </button>
-                <a href="upload.html" class="bg-transparent border-2 border-white px-8 py-3 rounded-lg font-bold hover:bg-white/10 transition">
-                    Upload Another Resume
-                </a>
+        <div id="results-container" class="space-y-6">
+            <!-- JS burayı dolduracak -->
+            <div class="bg-white rounded-lg shadow-xl p-6 text-center">
+                <p class="text-gray-600">Sonuçlar yükleniyor...</p>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-10">
-        <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                            <i data-feather="zap" class="text-white"></i>
-                        </div>
-                       <span class="text-xl font-bold">CV Detector</span>
-                    </div>
-                    <p class="text-gray-400">AI-powered job matching for the modern professional.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4">Product</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="index.html" class="hover:text-white">Home</a></li>
-                        <li><a href="upload.html" class="hover:text-white">Upload</a></li>
-                        <li><a href="results.html" class="hover:text-white">Results</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4">Company</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white">About</a></li>
-                        <li><a href="#" class="hover:text-white">Careers</a></li>
-                        <li><a href="#" class="hover:text-white">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4">Legal</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-white">Cookie Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>© 2025 CV Detector. All rights reserved. This is a demo application.</p>
-            </div>
-        </div>
-    </footer>
-
     <script>
-        feather.replace();
+        const API_BASE_URL = 'http://127.0.0.1:5000/api';
 
-        function downloadReport() {
-            alert('Downloading your personalized job match report...\n\nThis would generate a PDF report in a real application.');
-            // In a real app, this would trigger a PDF download
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('[Results] Sayfa yüklendi');
+            loadResults();
+        });
+
+        async function loadResults() {
+            const resultsContainer = document.getElementById('results-container');
+
+            const params = new URLSearchParams(window.location.search);
+            const analysisId = params.get('analysis_id');
+            console.log('[Results] analysis_id:', analysisId);
+
+            if (!analysisId) {
+                resultsContainer.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-xl p-8 text-center">
+                        <div class="text-6xl mb-4">⚠️</div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Analysis ID bulunamadı</h3>
+                        <p class="text-gray-600 mb-4">Bu sayfaya doğrudan geldin. Önce bir CV yüklemen gerekiyor.</p>
+                        <a href="upload.html" class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700">
+                            CV Yükle
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            resultsContainer.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl p-6 text-center">
+                    <div class="text-4xl mb-2 animate-pulse">⏳</div>
+                    <p class="text-gray-700">Sonuçlar yükleniyor...</p>
+                </div>
+            `;
+
+            try {
+                console.log('[Results] Backend isteği:', `${API_BASE_URL}/results/${analysisId}`);
+                const response = await fetch(`${API_BASE_URL}/results/${analysisId}`);
+                console.log('[Results] Status:', response.status);
+
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        throw new Error('Analiz bulunamadı. ID yanlış olabilir veya analiz henüz tamamlanmamış olabilir.');
+                    }
+                    throw new Error('Sunucu hatası: HTTP ' + response.status);
+                }
+
+                const data = await response.json();
+                console.log('[Results] Data:', data);
+
+                displayResults(data);
+            } catch (err) {
+                console.error('[Results] Hata:', err);
+                resultsContainer.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-xl p-8 text-center">
+                        <div class="text-6xl mb-4">❌</div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Sonuçlar alınamadı</h3>
+                        <p class="text-gray-600 mb-4">${err.message}</p>
+                        <a href="upload.html" class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700">
+                            Yeniden CV Yükle
+                        </a>
+                    </div>
+                `;
+            }
         }
 
-        // Animate match percentages on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const matchBadges = document.querySelectorAll('[class*="bg-"]:not(.bg-white):not(.bg-gray-):not(.bg-primary):not(.bg-secondary)');
-            matchBadges.forEach(badge => {
-                const matchText = badge.textContent;
-                const matchPercent = parseInt(matchText);
-                if (!isNaN(matchPercent)) {
-                    badge.textContent = '0%';
-                    let current = 0;
-                    const interval = setInterval(() => {
-                        current += 2;
-                        badge.textContent = current + '%';
-                        if (current >= matchPercent) {
-                            badge.textContent = matchPercent + '%';
-                            clearInterval(interval);
-                        }
-                    }, 20);
+        function displayResults(data) {
+            const resultsContainer = document.getElementById('results-container');
+            let html = '';
+
+            // 1) Status kontrol
+            if (data.status === 'processing' || data.status === 'pending') {
+                resultsContainer.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-xl p-8 text-center">
+                        <div class="text-6xl mb-4">⏳</div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Analiz Devam Ediyor</h3>
+                        <p class="text-gray-600 mb-4">CV'niz hâlâ işleniyor. Birkaç saniye sonra sayfayı yenileyin.</p>
+                        <button onclick="location.reload()" class="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700">
+                            Sayfayı Yenile
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            if (data.status === 'failed') {
+                resultsContainer.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-xl p-8 text-center">
+                        <div class="text-6xl mb-4">❌</div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Analiz Başarısız</h3>
+                        <p class="text-gray-600 mb-4">CV işlenirken bir hata oluştu. Lütfen yeniden deneyin.</p>
+                        <a href="upload.html" class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700">
+                            Tekrar CV Yükle
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Buraya geldiysek status muhtemelen "done"
+            html += '<div class="space-y-8">';
+
+            // 2) Analiz durumu kartı
+            html += `
+                <div class="bg-white rounded-lg shadow-xl p-6 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">✅ Analiz Tamamlandı</h3>
+                        <p class="text-gray-600 mt-1">CV'niz başarıyla analiz edildi.</p>
+                    </div>
+                    <a href="upload.html" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700">
+                        Yeni CV Yükle
+                    </a>
+                </div>
+            `;
+
+            // 3) Teknolojiler
+            if (data.technologies) {
+                const tech = data.technologies;
+                const categories = [
+                    { key: 'languages', title: 'Programlama Dilleri', icon: '🔤' },
+                    { key: 'frontend',  title: 'Frontend Teknolojileri', icon: '🎨' },
+                    { key: 'backend',   title: 'Backend Teknolojileri', icon: '🧠' },
+                    { key: 'databases', title: 'Veritabanları',         icon: '🗄️' },
+                    { key: 'devops',    title: 'DevOps & Araçlar',      icon: '⚙️' }
+                ];
+
+                html += `
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">💻 Tespit Edilen Teknolojiler</h3>
+                        <p class="text-gray-600 mb-4 text-sm">CV metninden regex + sözlük tabanlı analiz ile çıkarılmıştır.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                `;
+
+                categories.forEach(cat => {
+                    const list = tech[cat.key];
+                    if (list && list.length > 0) {
+                        html += `
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800 mb-2">${cat.icon} ${cat.title}</h4>
+                                <ul class="list-disc list-inside space-y-1 text-gray-700">
+                        `;
+                        list.forEach(item => {
+                            html += `<li><span class="font-semibold">${item.name}</span> (${item.count} kez)</li>`;
+                        });
+                        html += `</ul></div>`;
+                    }
+                });
+
+                html += `</div></div>`;
+            }
+
+            // 4) İletişim bilgileri
+            if ((data.emails && data.emails.length > 0) || (data.phones && data.phones.length > 0)) {
+                html += `
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">📧 İletişim Bilgileri</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                `;
+
+                if (data.emails && data.emails.length > 0) {
+                    html += `
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">E-posta Adresleri</h4>
+                            <ul class="space-y-1 text-gray-700">
+                    `;
+                    data.emails.forEach(email => {
+                        html += `<li>• ${email}</li>`;
+                    });
+                    html += `</ul></div>`;
                 }
-            });
-        });
+
+                if (data.phones && data.phones.length > 0) {
+                    html += `
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Telefon Numaraları</h4>
+                            <ul class="space-y-1 text-gray-700">
+                    `;
+                    data.phones.forEach(phone => {
+                        html += `<li>• ${phone}</li>`;
+                    });
+                    html += `</ul></div>`;
+                }
+
+                html += `</div></div>`;
+            }
+
+            // 5) İş ilanı önerileri
+            html += `
+                <div class="bg-white rounded-lg shadow-xl p-6">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">🎯 Size Uygun İş İlanları</h3>
+            `;
+
+            if (data.matched_jobs && data.matched_jobs.length > 0) {
+                html += `<p class="text-gray-600 mb-4">CV'nizdeki teknolojilere göre <strong>${data.matched_jobs.length}</strong> adet uygun iş ilanı bulundu.</p>`;
+                html += `<div class="grid md:grid-cols-2 gap-6">`;
+
+                data.matched_jobs.forEach(job => {
+                    const matchPercent = Math.round(job.match_score * 100);
+                    let badgeColor = 'bg-green-100 text-green-800';
+                    if (matchPercent < 50) badgeColor = 'bg-yellow-100 text-yellow-800';
+                    if (matchPercent < 30) badgeColor = 'bg-red-100 text-red-800';
+
+                    html += `
+                        <div class="job-card border-2 border-gray-200 rounded-lg p-6 hover:border-indigo-400">
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="text-xl font-bold text-gray-900">${job.title}</h4>
+                                <span class="match-badge ${badgeColor} px-3 py-1 rounded-full text-sm font-semibold">
+                                    ${matchPercent}% Uyum
+                                </span>
+                            </div>
+                            <p class="text-gray-700 mb-2"><span class="font-semibold">Şirket:</span> ${job.company}</p>
+                            <p class="text-gray-700 mb-4"><span class="font-semibold">Lokasyon:</span> ${job.location}</p>
+                            <p class="text-sm text-gray-600 mb-1 font-semibold">Eşleşen Teknolojiler:</p>
+                            <div class="flex flex-wrap gap-1 mb-2">
+                    `;
+
+                    (job.matched_technologies || []).forEach(t => {
+                        html += `<span class="px-2 py-1 bg-indigo-50 text-indigo-700 rounded text-xs font-medium">${t}</span>`;
+                    });
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+            } else {
+                html += `
+                    <div class="text-center py-6">
+                        <div class="text-5xl mb-3">😔</div>
+                        <p class="text-gray-700 mb-1">CV'nizdeki teknolojilerle eşleşen bir iş ilanı bulunamadı.</p>
+                        <p class="text-gray-500 text-sm">Daha fazla ve çeşitli teknoloji ekleyerek uyum oranını artırabilirsin.</p>
+                    </div>
+                `;
+            }
+
+            html += `</div>`; // iş ilanları kartı
+            html += `</div>`; // space-y-8
+
+            resultsContainer.innerHTML = html;
+        }
     </script>
 </body>
 </html>

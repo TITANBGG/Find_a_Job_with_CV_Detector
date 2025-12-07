@@ -10,6 +10,8 @@ from typing import List, Dict, Any
 
 from app.infra.db import get_db
 from app.infra.repositories import AnalysisRepository
+from app.services.job_matching_service import JobMatchingService
+from app.config.settings import settings
 
 
 router = APIRouter()
@@ -30,6 +32,16 @@ class TechnologiesResult(BaseModel):
     devops: List[TechnologyItem]
 
 
+class MatchedJob(BaseModel):
+    """Eşleşen iş ilanı modeli"""
+    job_id: int
+    title: str
+    company: str
+    location: str
+    match_score: float
+    matched_technologies: List[str]
+
+
 class AnalysisResultResponse(BaseModel):
     """Analiz sonuç response modeli"""
     analysis_id: str
@@ -37,6 +49,7 @@ class AnalysisResultResponse(BaseModel):
     emails: List[str] = []
     phones: List[str] = []
     technologies: TechnologiesResult | None = None
+    matched_jobs: List[MatchedJob] = []  # YENİ ALAN
 
 
 @router.get("/results/{analysis_id}", response_model=AnalysisResultResponse)
@@ -45,14 +58,14 @@ def get_analysis_results(
     db: Session = Depends(get_db)
 ):
     """
-    Analiz sonuçlarını getir
+    Analiz sonuçlarını getir ve iş ilanlarıyla eşleştir
     
     Args:
         analysis_id: Analiz UUID
         db: Database session
         
     Returns:
-        AnalysisResultResponse: Analiz sonuçları
+        AnalysisResultResponse: Analiz sonuçları + iş önerileri
     """
     # 1. Analizi bul
     analysis = AnalysisRepository.get_by_analysis_id(
@@ -81,7 +94,8 @@ def get_analysis_results(
             status="failed",
             emails=[],
             phones=[],
-            technologies=None
+            technologies=None,
+            matched_jobs=[]
         )
     
     # 3. Sonuçları parse et (status == "DONE")
@@ -99,12 +113,44 @@ def get_analysis_results(
             devops=[TechnologyItem(**item) for item in tech_data.get("devops", [])]
         )
         
+        # 4. CV'den çıkan tüm teknolojileri tek bir liste haline getir
+        cv_technologies = []
+        for category_name in ["languages", "frontend", "backend", "databases", "devops"]:
+            category_items = tech_data.get(category_name, [])
+            for item in category_items:
+                cv_technologies.append(item["name"])
+        
+        # 5. İş ilanlarını yükle ve eşleştir
+        matched_jobs = []
+        try:
+            # job_postings.json yolu
+            job_postings_path = settings.BASE_DIR / "storage" / "job_postings.json"
+            
+            if job_postings_path.exists():
+                job_postings = JobMatchingService.load_job_postings(job_postings_path)
+                matched_jobs_data = JobMatchingService.match_jobs(
+                    cv_technologies=cv_technologies,
+                    job_postings=job_postings,
+                    top_k=5
+                )
+                
+                # MatchedJob modeline dönüştür
+                matched_jobs = [MatchedJob(**job) for job in matched_jobs_data]
+            else:
+                print(f"[WARNING] job_postings.json bulunamadı: {job_postings_path}")
+        
+        except Exception as e:
+            print(f"[ERROR] İş eşleştirme hatası: {e}")
+            # Hata olsa bile devam et, sadece matched_jobs boş kalır
+        
+        # 6. Response döndür
         return AnalysisResultResponse(
             analysis_id=analysis_id,
             status="done",
             emails=emails,
             phones=phones,
-            technologies=technologies
+            technologies=technologies,
+            matched_jobs=matched_jobs
         )
     
     except Exception as e:
