@@ -5,7 +5,7 @@ Tamam, README’yi hem videoyu hem de tasarım dosyalarındaki sistemleri özell
 
 **Yapay zeka tabanlı CV analizi + iş ilanı eşleştirme ve iş öneri sistemi**
 
-Bu proje, kullanıcının CV’sini alıp:
+Bu proje, kullanıcının CV’sini alır:
 
 1. CV metnini otomatik işler,  
 2. Teknik ve davranışsal yetenekleri çıkarır,  
