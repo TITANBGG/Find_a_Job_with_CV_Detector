@@ -1,344 +1,240 @@
-Tamam, README’yi hem videoyu hem de tasarım dosyalarındaki sistemleri özellikle vurgulayacak şekilde baştan toparlayalım. Aşağıyı direkt `README.md` olarak koyabilirsin.
+<div align="center">
 
-````markdown
+<br/>
+
+```
+  ██████╗██╗   ██╗    ██████╗ ███████╗████████╗███████╗ ██████╗████████╗ ██████╗ ██████╗
+ ██╔════╝██║   ██║    ██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗
+ ██║     ██║   ██║    ██║  ██║█████╗     ██║   █████╗  ██║        ██║   ██║   ██║██████╔╝
+ ██║     ╚██╗ ██╔╝    ██║  ██║██╔══╝     ██║   ██╔══╝  ██║        ██║   ██║   ██║██╔══██╗
+ ╚██████╗ ╚████╔╝     ██████╔╝███████╗   ██║   ███████╗╚██████╗   ██║   ╚██████╔╝██║  ██║
+  ╚═════╝  ╚═══╝      ╚═════╝ ╚══════╝   ╚═╝   ╚══════╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
+```
+
 # Akıllı CV Analiz ve İş Öneri Platformu
 
-**Yapay zeka tabanlı CV analizi + iş ilanı eşleştirme ve iş öneri sistemi**
+**CV'ni yükle. Güçlü yönlerini keşfet. Doğru işe adım at.**
 
-Bu proje, kullanıcının CV’sini alır:
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![License](https://img.shields.io/badge/Lisans-MIT-green?style=flat-square)](LICENSE)
+[![University](https://img.shields.io/badge/Fırat_Üniversitesi-Bilgisayar_Müh.-red?style=flat-square)](https://firat.edu.tr)
+[![Status](https://img.shields.io/badge/Durum-Aktif_Geliştirme-orange?style=flat-square)](#)
 
-1. CV metnini otomatik işler,  
-2. Teknik ve davranışsal yetenekleri çıkarır,  
-3. Profili iş ilanlarıyla vektör tabanlı olarak karşılaştırır,  
-4. Uygun iş/stajları **puanlanmış şekilde** önerir,  
-5. Eksik / geliştirilmesi gereken alanlar için **geri bildirim** üretir.
+<br/>
 
-Fırat Üniversitesi Bilgisayar Mühendisliği **Mühendislik Tasarımı Projesi** kapsamında, uçtan uca çalışan bir **karar destek sistemi** olarak tasarlanmıştır.
+**[🎥 Demo Videosu](https://youtu.be/C6HcAOKBrYg)** · **[📋 Kurulum](#-kurulum)** · **[🏗️ Mimari](#️-sistem-mimarisi)** · **[🤝 Ekip](#-ekip)**
 
----
+<br/>
 
-## 🎥 Demo Videosu
-
-Platformun çalışma mantığını ve arayüzünü görmek için demo videosu:
-
-➡️ **YouTube Video:** https://youtu.be/C6HcAOKBrYg  
+</div>
 
 ---
 
-## 📌 İçindekiler
+## 🧠 Ne Yapar?
 
-1. [Proje Özeti](#-proje-özeti)  
-2. [Problem ve Çözüm](#-problem-ve-çözüm)  
-3. [Hedef Kitle ve Kullanım Senaryoları](#-hedef-kitle-ve-kullanım-senaryoları)  
-4. [Ana Sistemler ve Alt Modüller](#-ana-sistemler-ve-alt-modüller)  
-5. [Özellikler](#-özellikler)  
-6. [Sistem Mimarisi ve Veri Akışı](#-sistem-mimarisi-ve-veri-akışı)  
-7. [Kullanılan Teknolojiler](#-kullanılan-teknolojiler)  
-8. [Kurulum ve Çalıştırma](#-kurulum-ve-çalıştırma)  
-9. [Veri Yapıları Örneği](#-veri-yapıları-örneği)  
-10. [Yol Haritası](#-yol-haritası)  
-11. [Ekip](#-ekip)  
-12. [Lisans](#-lisans)  
+Geleneksel iş arama sürecinde adaylar iki temel soruyla boğuşur:
 
----
+> *"CV'm bu ilana ne kadar uyuyor?"*
+> *"Hangi teknolojileri öğrensem daha fazla iş fırsatı yakalarım?"*
 
-## 1. Proje Özeti
+Bu platform bu soruları veri ile yanıtlar. CV'ni PDF olarak yükle; sistem saniyeler içinde:
 
-Geleneksel işe alım sürecinde:
-
-- Adaylar, CV’lerinin bir ilana **gerçekten ne kadar uyduğunu** bilemiyor.  
-- İK ekipleri yüzlerce CV’yi gözle taramak zorunda kalıyor.  
-- “Hangi iş bana daha uygun?” sorusu veri yerine sezgiyle cevaplanıyor.
-
-**Akıllı CV Analiz ve İş Öneri Platformu**, CV ve iş ilanlarını metin tabanlı olmaktan çıkarıp:
-
-- Yetenek seti çıkarımı,  
-- Vektör temsili (embedding),  
-- Benzerlik skoru (cosine similarity)  
-
-üzerinden **sayısal olarak kıyaslayabilen** bir sistem sunar. Kullanıcı tek bir CV yükleyerek:
-
-- Profili hakkında özet rapor,
-- Güçlü / zayıf yönler,
-- Eşleşme yüzdeleriyle iş/staj önerileri
-
-elde eder.
+| Adım | İşlem |
+|------|--------|
+| 📄 **Metin Çıkarma** | CV'den ham metin ve yapısal bilgiler alınır |
+| 🔍 **Yetenek Analizi** | NLP ile teknolojiler, araçlar ve alan etiketleri çıkarılır |
+| 🧬 **Embedding** | CV ve iş ilanları vektör uzayına taşınır |
+| 📐 **Eşleştirme** | Cosine similarity ile her ilan için uyum skoru hesaplanır |
+| 📊 **Raporlama** | Eşleşen / eksik skill'ler ve sıralı iş önerileri sunulur |
 
 ---
 
-## 2. Problem ve Çözüm
+## ✨ Özellikler
 
-### Problem
-
-- CV’ler dağınık metin yapısında; içinden anlamlı, standart bir **yetenek profili** çıkarmak zor.  
-- İş ilanlarının detayları da benzer şekilde dağınık; manuel eşleştirme hem yavaş hem subjektif.  
-- Öğrenciler ve yeni mezunlar, piyasadaki ilanların kendilerinden ne istediğini ve kendi CV’lerinin buna ne kadar uyduğunu bilmiyor.
-
-### Çözüm
-
-Bu platform:
-
-- CV’yi otomatik okuyup **yetenek envanterine** çevirir (diller, framework’ler, araçlar, alanlar).  
-- İş ilanlarını da benzer şekilde normalize eder (gereken skill listeleri + açıklama metni).  
-- CV vektörü ile ilan vektörlerini karşılaştırarak **eşleşme skorları** üretir.  
-- Sonuç sayfasında:
-  - En uygun ilanları sıralar,
-  - Hangi skill’lerin eşleştiğini,
-  - Hangi kritik skill’lerin eksik olduğunu gösterir.
+- 📁 **PDF & DOCX Desteği** — Çoklu format CV yükleme
+- 🤖 **Yapay Zeka Destekli Analiz** — Sentence-Transformers tabanlı embedding
+- 💼 **Vektör Tabanlı Eşleştirme** — Cosine similarity ile hassas skor hesaplama
+- 📈 **Skill Gap Analizi** — "Eksiklerim neler?" sorusuna somut yanıt
+- 🔒 **KVKK Uyumlu** — Güvenli dosya işleme ve veri yönetimi
+- ⚡ **Modüler Mimari** — Bağımsız, test edilebilir servis katmanları
 
 ---
 
-## 3. Hedef Kitle ve Kullanım Senaryoları
+## 🏗️ Sistem Mimarisi
 
-### 3.1 Hedef Kitle
+Sistem üç ana katmandan oluşur:
 
-- **İş Arayan Bireyler**  
-  Kariyerini ilerletmek isteyen, “Bu ilanda ne kadar güçlüyüm?” sorusuna net cevap arayanlar.
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     SUNUM KATMANI                           │
+│         UserInterface  ·  ResultViewer  ·  ReportService    │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+┌────────────────────────▼────────────────────────────────────┐
+│                  UYGULAMA KATMANI                           │
+│                                                             │
+│   ┌──────────────────┐      ┌────────────────────────────┐  │
+│   │  CV ANALİZ SİSTEMİ│      │  İŞ EŞLEŞTİRME SİSTEMİ   │  │
+│   │                  │      │                            │  │
+│   │  UploadManager   │      │  JobRepository             │  │
+│   │  TextExtraction  │─────▶│  JobEmbeddingService       │  │
+│   │  AIAnalyzer      │      │  JobMatcher                │  │
+│   └──────────────────┘      └────────────────────────────┘  │
+│                                                             │
+│              ProcessingEngine  ·  APIHandler                │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+┌────────────────────────▼────────────────────────────────────┐
+│                   VERİ & GÜVENLİK KATMANI                   │
+│          DatabaseManager  ·  SecurityService  ·  Logger     │
+└─────────────────────────────────────────────────────────────┘
+```
 
-- **Öğrenciler & Yeni Mezunlar**  
-  CV’sinde hangi alanlara ağırlık vermesi gerektiğini, hangi teknolojilerde geri kaldığını görmek isteyenler.
+### Veri Akışı
 
-- **İK ve İnsan Kaynakları Ekipleri**  
-  Yüzlerce CV arasında, belirli pozisyon için en uygun adayları hızlıca shortlist etmek isteyen ekipler.
-
-- **Eğitim ve Kariyer Merkezleri**  
-  Öğrencilerin iş piyasasına hazır oluşlarını, CV kalitelerini ve skill gap’lerini takip etmek isteyen kurumlar.
-
-### 3.2 Örnek Senaryo
-
-1. Kullanıcı sisteme girip CV’sini PDF olarak yükler.  
-2. Sistem CV’yi otomatik işler, kullanılan teknolojileri ve alanları çıkarır.  
-3. Veritabanındaki iş ilanları taranır, her ilan için eşleşme skoru hesaplanır.  
-4. Kullanıcıya şu bilgiler sunulur:
-   - En uyumlu ilanlar listesi (% matç ile),
-   - Eşleşen teknolojiler listesi,
-   - Eksik/geliştirilmesi gereken teknolojiler,
-   - Genel profil özeti.
-
----
-
-## 4. Ana Sistemler ve Alt Modüller
-
-Mühendislik Tasarımı raporlarında ve CRC kartlarında tanımlanan yapıya uygun olarak sistem aşağıdaki **ana modüllerden** oluşur:
-
-### 4.1 CV Analiz Sistemi
-
-CV’nin sisteme alınması, metne dönüştürülmesi ve yetenek çıkarımı:
-
-- **UploadManager**
-  - Dosya yükleme (PDF/DOCX),
-  - Boyut ve MIME türü kontrolü,
-  - Dosyanın güvenli bir klasöre kaydedilmesi,
-  - `analysis_id` üretimi.
-
-- **TextExtractionService**
-  - PyMuPDF / benzeri araçla CV’den ham metin çıkarma,
-  - Bozuk dosya / okunamayan CV için hata üretme.
-
-- **AIAnalyzer (Skill & Profil Analizcisi)**
-  - NLP ön işleme (lowercase, stop-word temizliği, vs.),
-  - Teknoloji ve araç isimlerinin çekilmesi (Python, React, Docker, vs.),
-  - Alan etiketleri (Backend, Data Science, Computer Vision, vb.),
-  - Kısa profil özeti üretimi (özet cümle).
-
-### 4.2 İş İlanı Eşleştirme ve İş Öneri Sistemi
-
-İş ilanlarının yönetimi ve eşleştirme mantığı:
-
-- **JobRepository / JobDatabaseManager**
-  - İş ilanı kayıtlarının saklanması,
-  - `job_postings.json` ya da veritabanı tablosu üzerinden erişim,
-  - Filtreler (aktif ilan, pozisyon türü, seviye, lokasyon).
-
-- **JobEmbeddingService**
-  - İş ilanı açıklamasını embedding vektörüne dönüştürme,
-  - İlan skill set’lerini normalize etme.
-
-- **JobMatcher**
-  - CV embedding’i ile iş ilanı embedding’leri arasında cosine similarity hesaplama,
-  - Skill tabanlı ekstra puanlama (kritik skill’ler için ağırlık),
-  - En yüksek skorlu ilanları `top_matches` listesi olarak döndürme.
-
-### 4.3 Kullanıcı ve Oturum Yönetim Sistemi (Planlanan)
-
-- Kullanıcı kaydı / oturumu,  
-- Geçmiş analizleri görme,  
-- Favori ilanlar kaydetme,  
-- İK tarafı için çoklu CV / ilan yönetimi.
-
-### 4.4 Raporlama ve Sonuç Sunum Sistemi
-
-Analiz sonuçlarının kullanıcıya sunulması:
-
-- **ResultViewer / ReportService**
-  - Profil özeti (summary),
-  - Güçlü / zayıf yönler listesi,
-  - İş eşleşmeleri tablosu,
-  - Gelecekte PDF rapor indirme özelliği için altyapı.
-
-### 4.5 Güvenlik ve KVKK Uyumu Sistemi
-
-- **SecurityService**
-  - Dosya uzantısı ve MIME kontrolü,
-  - Maksimum dosya boyutu sınırlaması,
-  - Gerekirse virüs tarama entegrasyon noktası,
-  - KVKK / GDPR kapsamında loglama, maskeleme ve veri saklama politikalarının uygulanacağı katman.
+```
+Kullanıcı CV yükler
+        │
+        ▼
+UploadManager ──► Doğrulama + analysis_id üretimi
+        │
+        ▼
+TextExtractionService ──► Ham metin çıkarma (PyMuPDF)
+        │
+        ▼
+AIAnalyzer ──► Skill çıkarımı + Alan etiketleme + Profil özeti
+        │
+        ▼
+JobEmbeddingService ──► CV & ilan vektörleri
+        │
+        ▼
+JobMatcher ──► Cosine Similarity skorları
+        │
+        ▼
+ResultViewer ──► Sıralı iş önerileri + Skill gap raporu
+```
 
 ---
 
-## 5. Özellikler
+## 📦 Modüller
 
-Kısaca sistemin sunduğu başlıca özellikler:
+<details>
+<summary><b>📄 CV Analiz Sistemi</b></summary>
 
-- CV yükleme (PDF/DOCX)  
-- Otomatik metin çıkarma  
-- Yetenek ve teknoloji çıkarımı (skills)  
-- Profil özeti ve alan etiketleme  
-- İş ilanı analizi ve vektör tabanlı eşleştirme  
-- Eşleşme skoru (%), eşleşen / eksik skill listeleri  
-- Kullanıcı dostu web arayüzü  
-- Ölçeklenebilir, modüler mimari
+| Modül | Sorumluluk |
+|-------|------------|
+| `UploadManager` | Dosya yükleme, MIME/boyut doğrulama, `analysis_id` üretimi |
+| `TextExtractionService` | PyMuPDF ile PDF/DOCX'ten ham metin çıkarma |
+| `AIAnalyzer` | NLP ön işleme, teknoloji tespiti, alan etiketleme, profil özeti |
 
----
+</details>
 
-## 6. Sistem Mimarisi ve Veri Akışı
+<details>
+<summary><b>💼 İş Eşleştirme Sistemi</b></summary>
 
-Sistem 3 temel katmanda ele alınır:
+| Modül | Sorumluluk |
+|-------|------------|
+| `JobRepository` | İlan veritabanı CRUD, filtreleme (seviye, lokasyon, tür) |
+| `JobEmbeddingService` | İlan açıklamalarını vektöre dönüştürme |
+| `JobMatcher` | Cosine similarity + kritik skill ağırlıklandırması |
 
-1. **Sunum Katmanı**
-   - `UserInterface`, `ResultViewer`
-   - Kullanıcının CV’yi yüklediği ve sonuçları gördüğü katman.
+</details>
 
-2. **Uygulama / İş Mantığı Katmanı**
-   - `UploadManager`, `TextExtractionService`, `AIAnalyzer`
-   - `JobRepository`, `JobEmbeddingService`, `JobMatcher`
-   - `ProcessingEngine`, `APIHandler`
-   - Analiz sürecini orkestre eden mantığın bulunduğu katman.
+<details>
+<summary><b>🔒 Güvenlik & KVKK Sistemi</b></summary>
 
-3. **Veri & Güvenlik Katmanı**
-   - `DatabaseManager`, `JobDatabaseManager`
-   - `SecurityService`
-   - Tüm kalıcı veri, loglar ve güvenlik kontrolleri burada.
+| Kontrol | Detay |
+|---------|-------|
+| Dosya doğrulama | Uzantı + MIME türü kontrolü |
+| Boyut sınırı | Maksimum yükleme boyutu kısıtlaması |
+| Veri politikası | Analiz tamamlandıktan sonra CV verisi temizlenir |
+| Loglama | KVKK kapsamında maskelenmiş log kaydı |
 
-### 6.1 Tipik Veri Akışı
-
-1. Kullanıcı `upload.html` üzerinden CV dosyasını seçer ve yükler.  
-2. `UploadManager` dosyayı doğrular ve kaydeder, `analysis_id` üretir.  
-3. `ProcessingEngine` bu `analysis_id` ile:
-   - Metin çıkarma,
-   - Yetenek analizi,
-   - İş eşleştirme adımlarını sırayla çalıştırır.  
-4. `JobMatcher` en uygun ilanları ve skorlarını hesaplar.  
-5. Sonuçlar `DatabaseManager` üzerinden saklanır.  
-6. `ResultViewer`, `GET /api/analysis/{analysis_id}` ile sonuçları çekerek kullanıcıya sunar.
+</details>
 
 ---
 
-## 7. Kullanılan Teknolojiler
+## 🛠️ Teknoloji Yığını
 
-> Buradaki isimleri, projede gerçekten kullandığın kütüphane/model adlarına göre güncelleyebilirsin.
-
-- **Dil**
-  - Python 3.11+
-
-- **Backend**
-  - FastAPI veya Flask (REST API)
-  - Uvicorn / Gunicorn (ASGI sunucusu)
-  - Pydantic (veri şemaları, validation)
-  - PyMuPDF / pdfminer / docx2txt (CV’den metin çıkarma)
-
-- **NLP / Yapay Zeka**
-  - spaCy (temel NLP pipeline)
-  - Sentence-Transformers / BERT tabanlı embedding modelleri
-  - Gerekirse LLM API entegrasyonu (örn. GPT-4o-mini)
-
-- **Frontend**
-  - HTML5, CSS3, JavaScript
-  - (İleride React / Vue gibi bir framework’e taşınabilir)
-
-- **Veritabanı**
-  - Geliştirme için: SQLite
-  - Üretim senaryosunda: PostgreSQL önerilir
-
-- **Araçlar**
-  - Git & GitHub (sürüm kontrolü)
-  - (Opsiyonel) Docker ile konteynerleştirme
+```
+Backend          │  Python 3.11+  ·  FastAPI  ·  Uvicorn  ·  Pydantic
+NLP / AI         │  spaCy  ·  Sentence-Transformers (all-MiniLM-L6-v2)
+Metin Çıkarma    │  PyMuPDF  ·  docx2txt
+Veritabanı       │  SQLite (geliştirme)  ·  PostgreSQL (üretim)
+Frontend         │  HTML5  ·  CSS3  ·  JavaScript
+Araçlar          │  Git  ·  Docker (planlanan)
+```
 
 ---
 
-## 8. Kurulum ve Çalıştırma
+## 🚀 Kurulum
 
-> Aşağıdaki adımlar genel bir Python backend + statik frontend yapısı içindir.  
-> Kendi proje klasör yapılarına göre uyarlaman gerekebilir.
+### Ön Koşullar
 
-### 8.1 Depoyu Klonla
+- Python 3.11+
+- pip
+- Git
+
+### Adım 1 — Depoyu Klonla
 
 ```bash
-git clone https://github.com/<kullanici-adi>/<repo-adi>.git
-cd <repo-adi>
-````
+git clone https://github.com/TITANBGG/Find_a_Job_with_CV_Detector.git
+cd Find_a_Job_with_CV_Detector
+```
 
-### 8.2 Sanal Ortam ve Bağımlılıklar
+### Adım 2 — Sanal Ortam
 
 ```bash
 python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Linux / macOS
 
-pip install -r requirements.txt
+# Windows
+venv\Scripts\activate
+
+# Linux / macOS
+source venv/bin/activate
 ```
 
-Gerekiyorsa spaCy modelini indir:
+### Adım 3 — Bağımlılıklar
 
 ```bash
+pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
-### 8.3 Ortam Değişkenleri (.env)
+### Adım 4 — Ortam Değişkenleri
 
-Kök dizinde bir `.env` dosyası oluştur:
+Kök dizinde `.env` dosyası oluştur:
 
 ```env
 DB_URL=sqlite:///./data/app.db
 EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-OPENAI_API_KEY=...
+SECRET_KEY=your-secret-key-here
 ```
 
-### 8.4 Veritabanı
-
-Basit senaryoda ilk çalıştırmada tablolar otomatik oluşturulur.
-Migration kullanıyorsan:
+### Adım 5 — Çalıştır
 
 ```bash
-alembic upgrade head
-```
-
-### 8.5 Backend’i Çalıştır
-
-```bash
+# Backend
 uvicorn app.main:app --reload
-# veya
-python main.py
-```
 
-Varsayılan adres: `http://localhost:8000`
-
-### 8.6 Frontend’i Çalıştır
-
-Statik HTML için:
-
-```bash
+# Frontend (ayrı terminal)
 cd frontend
 python -m http.server 5500
 ```
 
-Tarayıcıda: `http://localhost:5500/upload.html`
+| Servis | Adres |
+|--------|-------|
+| API | http://localhost:8000 |
+| API Docs | http://localhost:8000/docs |
+| Frontend | http://localhost:5500/upload.html |
 
 ---
 
-## 9. Veri Yapıları Örneği
+## 📐 Veri Yapıları
 
-### 9.1 CV Kaydı
+<details>
+<summary><b>CV Kaydı</b></summary>
 
 ```json
 {
@@ -351,27 +247,31 @@ Tarayıcıda: `http://localhost:5500/upload.html`
 }
 ```
 
-### 9.2 İş İlanı Kaydı
+</details>
 
-```json
-[
-  {
-    "id": "job_001",
-    "title": "Python Backend Developer",
-    "company": "Örnek Teknoloji A.Ş.",
-    "location": "İstanbul / Remote",
-    "level": "Mid",
-    "description": "REST API geliştirme, PostgreSQL, Docker...",
-    "required_skills": ["python", "django", "postgresql", "docker"]
-  }
-]
-```
-
-### 9.3 Analiz Sonucu
+<details>
+<summary><b>İş İlanı Kaydı</b></summary>
 
 ```json
 {
-  "analysis_id": "e3b0c442-98fc-1fcf-9f6e-7f7d5b0e1234",
+  "id": "job_001",
+  "title": "Python Backend Developer",
+  "company": "Örnek Teknoloji A.Ş.",
+  "location": "İstanbul / Remote",
+  "level": "Mid",
+  "description": "REST API geliştirme, PostgreSQL, Docker...",
+  "required_skills": ["python", "django", "postgresql", "docker"]
+}
+```
+
+</details>
+
+<details>
+<summary><b>Analiz Sonucu</b></summary>
+
+```json
+{
+  "analysis_id": "e3b0c442-98fc-1c1f-9f6e-7f7d5b0e1234",
   "status": "COMPLETED",
   "profile": {
     "summary": "Python + Data ağırlıklı profil",
@@ -393,36 +293,53 @@ Tarayıcıda: `http://localhost:5500/upload.html`
 }
 ```
 
----
-
-## 10. Yol Haritası
-
-* [x] Tek CV yükleme ve temel analiz
-* [x] Örnek iş ilanları üzerinden temel eşleştirme
-* [ ] Gerçek zamanlı iş ilanı API entegrasyonu
-* [ ] Kullanıcı oturum sistemi ve geçmiş analizler
-* [ ] İK için çoklu aday / ilan yönetim paneli
-* [ ] Gelişim önerileri için kurs / eğitim öneri entegrasyonu
-* [ ] Docker ile tam konteynerleştirme ve deploy dökümanı
+</details>
 
 ---
 
-## 11. Ekip
+## 🗺️ Yol Haritası
 
-Bu proje, **Fırat Üniversitesi Bilgisayar Mühendisliği**
-**Mühendislik Tasarımı Projesi** kapsamında geliştirilmiştir.
-
-* **Ali Nebi Er**
-* **Ahmet Dağıstanlı**
-* **İkra Şahin**
+- [x] CV yükleme ve metin çıkarma
+- [x] NLP tabanlı skill analizi
+- [x] Vektör tabanlı iş eşleştirme
+- [x] Temel web arayüzü
+- [ ] Gerçek zamanlı iş ilanı API entegrasyonu (LinkedIn, Kariyer.net)
+- [ ] Kullanıcı oturum sistemi ve analiz geçmişi
+- [ ] İK paneli — çoklu CV karşılaştırma
+- [ ] Kurs/eğitim öneri entegrasyonu (Udemy, Coursera)
+- [ ] Docker ile tam konteynerleştirme
+- [ ] PDF analiz raporu indirme
 
 ---
 
-## 12. Lisans
+## 🎥 Demo
 
-Bu depo için kullanılacak lisans henüz belirlenmediyse, GitHub’ın “Add a license” özelliği kullanılarak bir lisans (MIT, Apache-2.0, GPL-3.0, vb.) eklenebilir.
+Platform çalışma mantığını ve arayüzü görmek için:
 
-```
+**▶️ [YouTube Demo Videosu](https://youtu.be/C6HcAOKBrYg)**
 
-```
+---
 
+## 👥 Ekip
+
+Bu proje **Fırat Üniversitesi Bilgisayar Mühendisliği — Mühendislik Tasarımı Projesi** kapsamında geliştirilmiştir.
+
+| İsim | GitHub |
+|------|--------|
+| Ali Nebi Er | [@TITANBGG](https://github.com/TITANBGG) |
+| Ahmet Dağıstanlı | — |
+| İkra Şahin | — |
+
+---
+
+## 📄 Lisans
+
+Bu proje [MIT Lisansı](LICENSE) kapsamında lisanslanmıştır.
+
+---
+
+<div align="center">
+
+*Fırat Üniversitesi · Bilgisayar Mühendisliği · 2024–2025*
+
+</div>
